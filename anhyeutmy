@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>
+#include <thread>
+#include <chrono>
+
+using namespace std;
+
+// Hàm vẽ trái tim
+void drawHeart(char c) {
+    for (double y = 1.5; y > -1.5; y -= 0.1) {
+        for (double x = -1.5; x < 1.5; x += 0.05) {
+            double formula = pow(x*x + y*y - 1, 3) - x*x*y*y*y;
+            if (formula <= 0.0)
+                cout << c;
+            else
+                cout << " ";
+        }
+        cout << endl;
+    }
+}
+
+// Hàm in chữ chạy từng ký tự
+void typeLine(string text, int delay_ms = 50) {
+    for (char c : text) {
+        cout << c << flush;
+        this_thread::sleep_for(chrono::milliseconds(delay_ms));
+    }
+    cout << endl;
+}
+
+int main() {
+    // Vẽ trái tim
+    drawHeart('*');
+
+    // Đợi 2 giây
+    this_thread::sleep_for(chrono::seconds(2));
+
+    cout << endl;
+
+    // Các dòng chữ (mỗi dòng cách nhau 2 giây)
+    string lines[] = {
+        "Anh yeu em lam",
+        "Anh muon lay em lam vo",
+        "Cam on em da luon ben canh anh",
+        "Cam on em vi em da dong hanh cung anh",
+        "Cam on em vi chap nhan yeu anh",
+        "Cam on em vi viet cho anh mot tinh yeu dep"
+    };
+
+    for (string line : lines) {
+        typeLine(line, 40); // chữ chạy
+        this_thread::sleep_for(chrono::seconds(2)); // delay 2s mỗi dòng
+    }
+
+    // In tim cuối
+    cout << "\n";
+    drawHeart('#');
+
+    return 0;
+}
